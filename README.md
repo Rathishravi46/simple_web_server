@@ -1,6 +1,6 @@
 # EX01 Developing a Simple Webserver
 
-# Date: 08/04/2025
+# Date: 22/04/2025
 # AIM:
 To develop a simple webserver to serve html pages and display the configuration details of laptop.
 
@@ -22,101 +22,166 @@ Testing the webserver.
 
 # PROGRAM:
 ```
-from django.shortcuts import render,HttpResponse
-from http.server import HTTPServer,BaseHTTPRequestHandler
-content='''
+from http.server import HTTPServer, BaseHTTPRequestHandler
+content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>properties</title>
+    <title>Lenovo ThinkPad Gen 16 i5 Specifications</title>
     <style>
-        *{
-             background-color: azure;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
         }
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 80px 0;
-           
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
-        th, td {
-            border: 1px solid #1c211f;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #5e645e;
-        }
-        .head{
+
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
             text-align: center;
-            font-size: 50px;
-            
         }
 
-           
-            
-        
-        
-    </style>
-</head> 
-<body>
-    <div class="head">
-        <b>DEVICE PROPERTIES</b>
-    </div>
-<center>
-    <table style="border: 5px;">
-        <tr>
-            <th>DEVICE NAME</th>
-            <td>Aravind</td>
-        </tr>
-        <tr>
-            <th>PROCESSOR</th>
-            <td>13th Gen Intel(R) Core(TM) i7-1335U   1.30 GHz</td>
-        </tr>
-        <tr>
-            <th>Installed RAM</th>
-            <td>16.0 GB (15.7 GB usable)</td>
-        </tr>
-        <tr>
-            <th>DEVICES ID</th>
-            <td>15EEA3B2-7EF5-4DEC-903D-577382C3C005</td>
-        </tr>
-        <tr>
-            <th>PRODUCT ID</th>
-            <td>00342-42708-95366-AAOEM</td>
-        </tr>
-        <tr>
-            <tr>
-                <th>SYSTEM TYPE</th>
-                <td>64-bit operating system, x64-based processor</td>
-        </tr>
-        <tr>
-            <th>PEN AND TOUCH</th>
-            <td>touch support with 3 touch points</td>
-        </tr>                            
-    </table>
-    </center>
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
 
+        .specifications {
+            padding: 20px;
+        }
+
+        .specifications h2 {
+            color: #003366;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            font-size: 16px;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #003366;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        footer {
+            background-color: #003366;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lenovo ThinkPad Gen 16 i5 Specifications</h1>
+        </header>
+        <section class="specifications">
+            <h2>Key Specifications</h2>
+            <table>
+                <tr>
+                    <th>Processor</th>
+                    <td>Intel Core i5 (12th Gen)</td>
+                </tr>
+                <tr>
+                    <th>Display</th>
+                    <td>16-inch WQXGA (2560 x 1600)</td>
+                </tr>
+                <tr>
+                    <th>Memory</th>
+                    <td>8GB or 16GB DDR4 RAM</td>
+                </tr>
+                <tr>
+                    <th>Storage</th>
+                    <td>512GB SSD (configurable)</td>
+                </tr>
+                <tr>
+                    <th>Graphics</th>
+                    <td>Intel Iris Xe Graphics</td>
+                </tr>
+                <tr>
+                    <th>Operating System</th>
+                    <td>Windows 11 Pro</td>
+                </tr>
+                <tr>
+                    <th>Battery</th>
+                    <td>57Wh, up to 10 hours</td>
+                </tr>
+                <tr>
+                    <th>Weight</th>
+                    <td>1.50 kg (3.31 lbs)</td>
+                </tr>
+                <tr>
+                    <th>Ports</th>
+                    <td>2 x USB 3.2, 2 x USB-C, HDMI, Ethernet</td>
+                </tr>
+                <tr>
+                    <th>Camera</th>
+                    <td>1080p HD webcam</td>
+                </tr>
+            </table>
+        </section>
+        <footer>
+            <p>&copy; 2024 Lenovo. All rights reserved.</p>
+        </footer>
+    </div>
 </body>
 </html>
-'''
-class Myserver(BaseHTTPRequestHandler):
+
+"""
+class myhandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        print("Get request received...")
+        print("request received")
         self.send_response(200)
-        self.send_header("content-type","text/html")
+        self.send_header('content-type', 'text/html; charset=utf-8')
         self.end_headers()
         self.wfile.write(content.encode())
-print("This is my webserver")
-serveraddress=('',8000)
-httpd = HTTPServer(serveraddress,Myserver)
+server_address = ('',8000)
+httpd = HTTPServer(server_address,myhandler)
+print("my webserver is running...")
 httpd.serve_forever()
 ```
 # OUTPUT:
-![Screenshot 2025-03-23 124213](https://github.com/user-attachments/assets/b5a49f60-a9c5-4e57-823b-54d7817fd5b4)
-![Screenshot 2025-03-23 124123](https://github.com/user-attachments/assets/ef15c018-ee56-4b37-a291-58bfce00b421)
+![image](https://github.com/user-attachments/assets/5ca00fd2-3dfd-4888-b3ee-12f3c8ca4631)
+![image](https://github.com/user-attachments/assets/3e94ff28-c6a6-4782-a168-e0486066172e)
 
 
 # RESULT:
